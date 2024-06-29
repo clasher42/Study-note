@@ -1,12 +1,18 @@
 from flask import Flask, request, jsonify, render_template
 import os
+from dotenv import load_dotenv
 from groq import Groq
 
 app = Flask(__name__)
 
+# Load environment variables from .env file
+load_dotenv()
 
-# if not GROQ_API_KEY:
-#     raise ValueError("No GROQ_API_KEY found in environment variables")
+# Set up your Groq API key
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+
+if not GROQ_API_KEY:
+    raise ValueError("No GROQ_API_KEY found in environment variables")
 
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -30,7 +36,7 @@ def generate_answer(question):
     try:
         chat_completion = client.chat.completions.create(
             messages=messages,
-            model="llama3-70b-8192",
+            model="gemma-7b-it",
         )
         answer = chat_completion.choices[0].message.content
     except Exception as e:
