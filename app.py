@@ -36,7 +36,7 @@ def generate_answer(question):
     try:
         chat_completion = client.chat.completions.create(
             messages=messages,
-            model="gemma-7b-it",
+            model="llama3-70b-8192",
         )
         answer = chat_completion.choices[0].message.content
     except Exception as e:
